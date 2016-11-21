@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>bookList.html</title>
+<meta name="content-type" content="text/html; charset=UTF-8">
+</head>
+
+<script type="text/javascript">
+	//增加
+	function addLine() {
+		var tb = document.getElementById("tb");
+		rowIndex = tb.rows.length;//默认在末尾插入一行
+		var row = tb.insertRow(rowIndex);
+		
+		//初始化行内容
+		var c1 = row.insertCell(0);
+		c1.innerHTML = "空 ";
+		var c2 = row.insertCell(1);
+		c2.innerHTML = "空 ";
+		var c3 = row.insertCell(2);
+		c3.innerHTML = "空 ";
+		var c4 = row.insertCell(3);
+		c4.innerHTML = "空 ";
+		var c5 = row.insertCell(4);
+		c5.innerHTML = "<a href=\"#\" onclick=\"modify()\">修改</a> <a href=\"#\" onclick=\"deleteLine(this)\">删除</a>";
+	}
+
+	function deleteLine() {
+		/* var td = event.srcElement; // 通过event.srcelement 获取激活事件的对象 td  
+		var rowIndex=td.parentElement.rowIndex;//行号
+		tb.deleteRow(rowIndex-1); */
+		/* var td = textObj.parentNode.parentNode;
+		var tr = td.parentNode;
+		var table = tr.parentNode;
+		for (var i = 0; i < table.rows.length; i++) {
+			var row=table.row[i];
+			if(row==tr){
+				var rowIndex=i;
+				table.deleteRow(rowIndex-1);
+			}
+			return;
+		} */
+
+		var e = e || window.event;
+		var target = e.target || e.srcElement;
+		if (target.parentNode.tagName.toLowerCase() == "td") {
+			rowIndex = target.parentNode.parentNode.rowIndex;
+		}
+		var table = document.getElementById("tb");
+		table.deleteRow(rowIndex);
+
+	}
+
+	function add() {
+	
+		//复选框取值
+		var bookKind_ele = document.getElementsByName("bookKind");
+		var objarray = bookKind_ele.length;
+		var bookKind = "";
+		for (var i = 0; i < objarray; i++) {
+			if (bookKind_ele[i].checked == true && i != objarray - 1) {
+				bookKind += bookKind_ele[i].value + " ";
+			}
+		}
+
+		//text取值
+		var bookName = document.getElementById("bookName").value;
+
+		//radio取值	
+		var libNum = null;
+		var libNum_ele = document.getElementsByName("libNum");
+		for (i = 0; i < libNum_ele.length; i++) { //遍历Radio  
+			if (libNum_ele[i].checked) {
+				libNum = libNum_ele[i].value;
+			}
+		}
+
+		//下拉框取值
+		var press = document.getElementById("press").value;
+
+		//textArea取值
+		var introduction = document.getElementById("introduction").value;
+
+		//加行
+		var tb = document.getElementById("tb");
+		rowIndex = tb.rows.length;//默认在末尾插入一行
+		var row = tb.insertRow(rowIndex);
+
+		//填充行
+		var c1 = row.insertCell(0);
+		c1.innerHTML = bookName;
+		var c2 = row.insertCell(1);
+		c2.innerHTML = libNum;
+		var c3 = row.insertCell(2);
+		c3.innerHTML = press;
+		var c4 = row.insertCell(3);
+		c4.innerHTML = bookKind;
+	}
+	
+	function putOn() {
+		var e = e || window.event;
+		var target = e.target || e.srcElement;
+		if (target.parentNode.tagName.toLowerCase() == "td") {
+			rowIndex = target.parentNode.parentNode.rowIndex;
+		}
+		var table = document.getElementById("tb");
+		var row=table.rows[rowIndex];
+		
+		//复选框取值
+		var bookKind_ele = document.getElementsByName("bookKind");
+		var objarray = bookKind_ele.length;
+		var bookKind = "";
+		for (var i = 0; i < objarray; i++) {
+			if (bookKind_ele[i].checked == true && i != objarray - 1) {
+				bookKind += bookKind_ele[i].value + " ";
+			}
+		}
+
+		//text取值
+		var bookName = document.getElementById("bookName").value;
+
+		//radio取值	
+		var libNum = null;
+		var libNum_ele = document.getElementsByName("libNum");
+		for (i = 0; i < libNum_ele.length; i++) { //遍历Radio  
+			if (libNum_ele[i].checked) {
+				libNum = libNum_ele[i].value;
+			}
+		}
+
+		//下拉框取值
+		var press = document.getElementById("press").value;
+
+		//textArea取值
+		var introduction = document.getElementById("introduction").value;
+
+		//填表
+		var c1 = row.cells[0];
+		c1.innerHTML = bookName;
+		var c2 = row.cells[1];
+		c2.innerHTML = libNum;
+		var c3 = row.cells[2];
+		c3.innerHTML = press;
+		var c4 = row.cells[3];
+		c4.innerHTML = bookKind;
+	}
+</script>
+
+<body>
+	<table id="tb" border="1">
+		<caption>结果列表</caption>
+		<thead>
+			<tr>
+				<th>图书名称</th>
+				<th>图书馆</th>
+				<th>出版社</th>
+				<th>图书分类</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td>1</td>
+				<td>2</td>
+				<td><a href="#" onclick="modify() ">修改</a> <a href="#"
+					onclick="deleteLine()">删除</a></td>
+			</tr>
+			<tr>
+				<td>1</td>
+				<td>2</td>
+				<td>1</td>
+				<td>2</td>
+				<td><a href="#" onclick="modify()">修改</a> <a href="#"
+					onclick="deleteLine()">删除</a></td>
+			</tr>
+		</tbody>
+	</table>
+	<br />
+	<input type="button" value="新增" onclick="addLine()">
+	<br />
+	<br />
+
+
+	<form>
+		<fieldset>
+			<legend>图书信息</legend>
+			图书名称：<br /> <input type="text" id="bookName" value=""><br />
+			<br /> 分馆：<br /> <input type="radio" name="libNum" value="馆1">馆1
+			<input type="radio" name="libNum" value="馆2">馆2 <br /> <br />
+			图书分类：<br /> <input type="checkbox" name="bookKind" value="小说">小说
+			<input type="checkbox" name="bookKind" value="艺术">艺术 <input
+				type="checkbox" name="bookKind" value="青春">青春 <input
+				type="checkbox" name="bookKind" value="教育">教育 <input
+				type="checkbox" name="bookKind" value="生活">生活 <input
+				type="checkbox" name="bookKind" value="经管">经管 <input
+				type="checkbox" name="bookKind" value="科技">科技 <br /> <br />
+			出版社：<br /> <select id="press">
+				<option value="清华大学出版社">清华大学出版社</option>
+				<option value="三毛出版社">三毛出版社</option>
+				<option value="二毛出版社">二毛出版社</option>
+			</select><br /> <br /> 简介：<br />
+			<textarea rows="6" cols="50" id="introduction"></textarea>
+			<br /> <br /> <input type="button" value="提交" onclick="add()"><br /> <br />
+		</fieldset>
+	</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
